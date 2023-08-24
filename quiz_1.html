@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="40">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You know</title>
+</head>
+<style>
+    body{
+        margin: 0%;
+        padding: 0%;
+    }
+   #submit{
+    width: 300px;
+      background-color: black;
+      color: white;
+      border: 2px solid lightcoral;
+      border-radius: 20px;
+     padding: 5px;
+     font-size: 20px;
+
+    }
+</style>
+<body style="background-color: black; color: azure;">
+   <center style="color: orange;"> <h1>Javascript Quiz App</h1>
+    <h3>________ 40 second to solve the quiz ________</h3></center>
+
+    <div id="quiz"></div>
+
+    <center><button id="submit" >Submit</button></center> 
+
+    <div id="results"></div>
+    <script>
+        const quizContainer = document.getElementById('quiz')
+        const submitButton = document.getElementById('submit')
+        const resultsContainer = document.getElementById('results')
+
+        const myQuestions = [
+        {
+            question: "  1) who is first president of india?",
+            answers: {
+            a: "Jawaharlal Nehru",
+            b: "Rajendra Prasad",
+            c: "sardar vallabhbhai patel"
+            },
+            correctAnswer: "b"
+        },
+        {
+            question: " 2) India is a federal union comprising twenty-eight states and how many union territories??",
+            answers: {
+            a: "6",
+            b: "8",
+            c: "10"
+            },
+            correctAnswer: "b"
+        },
+        {
+            question: " 3) Where are statue of unity?",
+            answers: {
+            a: "Surat",
+            b: " Vadodara",
+            c: "Delhi"
+            },
+            correctAnswer: "b"
+        },
+        {
+            question: " 4) Who played a significant role in India's struggle for independence and is known as the Father of the Nation?",
+            answers: {
+            a: "Bhagat Singh ",
+            b: " Subhas Chandra Bose",
+            c: "Mahatma Gandhi "
+            },
+            correctAnswer: "c"
+        },
+        {
+            question: " 5) Who was the first emperor of the Maurya Empire?",
+            answers: {
+            a: "Chandragupta Maurya",
+            b: "Ashoka the Great ",
+            c: "Samudragupta "
+            },
+            correctAnswer: "a"
+        },
+        {
+            question: " 6)   When was Indian National song sung for the first time??",
+            answers: {
+            a: "1857 revolt",
+            b: " 1896 session of the Indian National Congress",
+            c: "None of the above"
+            },
+            correctAnswer: "b"
+        },
+        {
+            question: " 7) where did CHHATRAPATI SHIVAJI MAHARAJ  rajyabhishek?",
+            answers: {
+            a: "Shivneri Fort",
+            b: " Raigad Fort",
+            c: " Pratap Gad"
+            },
+            correctAnswer: "b"
+        },
+        {
+            question: " 8)   Where did the formation of Azad Hind Fauj take Place??",
+            answers: {
+            a: "Russia",
+            b: " Japan ",
+            c: "Singapur"
+            },
+            correctAnswer: "c"
+        },
+        {
+            question: " 9) Who was invented zero ?",
+            answers: {
+            a: "Har Gobind Khorana",
+            b: "Srinivasa Ramanujan",
+            c: "Aryabhata"
+            },
+            correctAnswer: "c"
+        },
+        {
+            question: " 10)   In the third battle of Panipat, who defeated Marathas??",
+            answers: {
+            a: " British Army",
+            b: "Afgans ",
+            c: "Mughals"
+            },
+            correctAnswer: "b"
+        }
+        ];
+
+        function buildQuiz(){
+            const output = []
+
+            myQuestions.forEach((currentQuestion, questionNumber) => {
+                const answers = []
+
+                for(letter in currentQuestion.answers){
+                    answers.push(
+                        `<label><input type="radio" name="question${questionNumber}" value="${letter}" />${letter} :${currentQuestion.answers[letter]}<br></label>
+                        <br>
+                        `
+                    )
+                }
+                //console.log(answers);
+                output.push(
+                    `<center ><h2><div class="question">${currentQuestion.question}</div></h2>
+                    <div class="answers">${answers.join('')}</div></center>
+                    `
+                )
+            })
+            //console.log(output);
+            quizContainer.innerHTML = output.join('')
+        }
+
+        function showResults(){
+            const answerContainers = quizContainer.querySelectorAll('.answers')
+
+            let numCorrect = 0
+
+            myQuestions.forEach((currentQuestion, questionNumber) => {
+                //find selected answer
+                const answerContainer = answerContainers[questionNumber]
+                // input[name=question1]:checked
+                const selector = `input[name=question${questionNumber}]:checked`;
+                const userAnswer = (answerContainer.querySelector(selector) || {}).value
+
+                if (userAnswer === currentQuestion.correctAnswer) {
+                    numCorrect++
+                    answerContainers[questionNumber].style.color = 'green'
+
+                } else {
+                    answerContainers[questionNumber].style.color = 'red'
+                }
+            })
+        
+            resultsContainer.innerHTML = `<center> <h3>${numCorrect} out of ${myQuestions.length} </h3></center>`
+        }
+
+        buildQuiz()
+
+        submitButton.addEventListener('click', showResults)
+
+    </script>
+    
+</body>
+</html>
